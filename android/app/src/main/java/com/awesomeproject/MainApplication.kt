@@ -1,6 +1,7 @@
 package com.awesomeproject
 
 import android.app.Application
+import com.clevertap.android.sdk.ActivityLifecycleCallback
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
@@ -13,6 +14,13 @@ import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
 
 class MainApplication : Application(), ReactApplication {
+
+
+  protected fun getPackages(): List<ReactPackage?>? {
+    // Packages that cannot be autolinked yet can be added manually here, for example:
+    // packages.add(new MyReactNativePackage());
+    return PackageList(this).packages
+  }
 
   override val reactNativeHost: ReactNativeHost =
       object : DefaultReactNativeHost(this) {
@@ -34,6 +42,7 @@ class MainApplication : Application(), ReactApplication {
     get() = getDefaultReactHost(this.applicationContext, reactNativeHost)
 
   override fun onCreate() {
+    ActivityLifecycleCallback.register(this)
     super.onCreate()
     SoLoader.init(this, false)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
